@@ -50,7 +50,6 @@
 
 <script>
 import axios from "axios";
-import { mapState } from "vuex";
 import router from "../router/index";
 
 export default {
@@ -65,13 +64,10 @@ export default {
       ir: true
     };
   },
-  computed: {
-    ...mapState(["url"])
-  },
   methods: {
     async autentificacion() {
       try {
-        const res = await axios.post(this.url + "/autenticar", {
+        const res = await axios.post("/autenticar", {
           nombre_user: this.form.usuario,
           contrasenia: this.form.contrasenia
         });

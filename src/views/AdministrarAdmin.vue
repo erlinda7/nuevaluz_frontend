@@ -88,7 +88,6 @@
 
 <script>
 import axios from 'axios'
-import {mapState} from 'vuex'
 import router from "../router/index";
 //import Modal from "../components/Modal";
 
@@ -104,9 +103,6 @@ export default {
             irGestionar: true
         }
     },
-    computed: {
-        ...mapState(['url'])
-    },
     methods: {
         showModal(index) {
         let modal_id = "modal_"+index
@@ -119,7 +115,7 @@ export default {
       //<------------------------------------------------>
     async obtenerUsuarios() {
       try {
-        const respuesta = await axios.get(this.url + "/usuario/"+router.app.$auth.obtenerIdUsuario());// mandar Id
+        const respuesta = await axios.get("/usuario/"+router.app.$auth.obtenerIdUsuario());// mandar Id
         this.usuarios = respuesta.data;
       } catch (error) {
         console.log("error al conectar al api : ", error);
@@ -127,7 +123,7 @@ export default {
     },
     async enviarUsuario() {
       try {
-        const resf = await axios.post(this.url + "/usuario", {
+        const resf = await axios.post("/usuario", {
           nombre_user: this.form.nombre_user,
           contrasenia: this.form.contrasenia
         });
@@ -141,7 +137,7 @@ export default {
     },
     async eliminarUsuario(id, index) {
       try {
-        await axios.delete(this.url + "/usuario/" + id);
+        await axios.delete("/usuario/" + id);
         this.obtenerUsuarios();
         //alert('Usuario Eliminado')
         this.hideModal(index) 

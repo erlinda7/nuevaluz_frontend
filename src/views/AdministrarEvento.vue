@@ -184,7 +184,6 @@
 
 <script>
 import axios from 'axios'
-import {mapState} from 'vuex'
 import router from "../router/index";
 
 export default {
@@ -212,9 +211,6 @@ export default {
         show: true
       }
     },
-    computed: {
-      ...mapState(['url'])
-    },
     methods: {
       showModal(index) {
         let modal_id = "modal_"+index
@@ -226,7 +222,7 @@ export default {
       },
       async obtenerevento() {
         try {
-          const respuesta = await axios.get(this.url+"/evento");
+          const respuesta = await axios.get("/evento");
           this.eventos = respuesta.data;
         } catch (error) {
           console.log("error al conectar al api: ", error);
@@ -235,7 +231,7 @@ export default {
       async enviarImagen(){
         const fd = new FormData();
         fd.append('file',this.file)
-        axios.post(this.url+'/subir', fd)
+        axios.post('/subir', fd)
           .then(res => {
             this.form.imagen = '/images/'+res.data.filename
             console.log(res.data)
@@ -245,7 +241,7 @@ export default {
       async actualizarImagen(){
         const fd = new FormData();
         fd.append('file',this.file)
-        axios.post(this.url+'/subir', fd)
+        axios.post('/subir', fd)
           .then(res => {
             this.evento.imagen = '/images/'+res.data.filename
             console.log(res.data)
@@ -254,8 +250,7 @@ export default {
       },
       async enviarFormulario() {
        try {
-        const res = await axios.post(
-          this.url+"/evento",
+        const res = await axios.post("/evento",
           {
             titulo: this.form.nombre,
             descripcion: this.form.descripcion,
@@ -281,8 +276,7 @@ export default {
       },
       async actualizarFormulario(){
        try { 
-        await axios.put(
-          this.url+"/evento/"+this.evento.id_evento,
+        await axios.put("/evento/"+this.evento.id_evento,
           {
             titulo: this.evento.titulo,
             descripcion: this.evento.descripcion,
@@ -299,7 +293,7 @@ export default {
     },
       async eliminarEvento(id, index){
         try {
-          await axios.delete(this.url+'/evento/'+id);
+          await axios.delete('/evento/'+id);
           this.obtenerevento()
          // alert('Evento Eliminado')
          this.hideModal(index) 

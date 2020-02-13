@@ -220,7 +220,6 @@
 
 <script>
 import axios from 'axios'
-import {mapState} from 'vuex'
 import router from "../router/index";
 
 export default {
@@ -263,9 +262,6 @@ export default {
         show: true
       }
     },
-    computed:{
-        ...mapState(['url'])
-    },
     methods: {
       showModal(index) {
         let modal_id = "modal_"+index
@@ -277,7 +273,7 @@ export default {
       },
         async obtenerministerio() {
         try {
-          const respuesta = await axios.get(this.url+"/listaMinisterios");
+          const respuesta = await axios.get("/listaMinisterios");
           this.ministerios = respuesta.data;
         } catch (error) {
           console.log("error al conectar al api: ", error);
@@ -286,7 +282,7 @@ export default {
         async enviarImagen(){
         const fd = new FormData();
         fd.append('file',this.file)
-        axios.post(this.url+'/subir', fd)
+        axios.post('/subir', fd)
           .then(res => {
             this.form.imagen = '/images/'+res.data.filename
             console.log(res.data)
@@ -296,7 +292,7 @@ export default {
         async enviarFoto(){
         const fd = new FormData();
         fd.append('file',this.file2)
-        axios.post(this.url+'/subir', fd)
+        axios.post('/subir', fd)
           .then(res => {
             this.form.foto = '/images/'+res.data.filename
             console.log(res.data)
@@ -306,7 +302,7 @@ export default {
       async actualizarImagen(){
         const fd = new FormData();
         fd.append('file',this.file)
-        axios.post(this.url+'/subir', fd)
+        axios.post('/subir', fd)
           .then(res => {
             this.ministerio.imagen = '/images/'+res.data.filename
             console.log(res.data)
@@ -316,7 +312,7 @@ export default {
         async actualizarFoto(){
         const fd = new FormData();
         fd.append('file',this.file2)
-        axios.post(this.url+'/subir', fd)
+        axios.post('/subir', fd)
           .then(res => {
             this.ministerio.foto = '/images/'+res.data.filename
             console.log(res.data)
@@ -326,7 +322,7 @@ export default {
       async enviarFormulario() {
        try {
         const res = await axios.post(
-          this.url+"/ministerio",
+          "/ministerio",
           {
             nombre: this.form.nombre,
             descripcion_corta: this.form.lema,
@@ -350,7 +346,7 @@ export default {
       async actualizarFormulario(){
        try { 
         await axios.put(
-          this.url+"/ministerio/"+this.ministerio.id_ministerio,
+          "/ministerio/"+this.ministerio.id_ministerio,
           {
             nombre: this.ministerio.nombre,
             descripcion_corta: this.ministerio.lema,
@@ -373,7 +369,7 @@ export default {
       async actualizarHorarioMinisterio(id) {
         try {
           const res = await axios.put(
-            this.url+"/ministerioReunion/"+id,
+            "/ministerioReunion/"+id,
             {
               dia: this.ministerio.dia,
               hora_inicio: this.ministerio.hora_inicio,
@@ -391,7 +387,7 @@ export default {
         async agregarHorarioMinisterio(id) {
           try {
             const res = await axios.post(
-              this.url+"/ministerioReunion",
+              "/ministerioReunion",
               {
                 dia: this.form.dia,
                 hora_inicio: this.form.hora_inicio,
@@ -440,7 +436,7 @@ export default {
       },
       async eliminarMinisterio(id, index){
         try {
-          await axios.delete(this.url+'/ministerio/'+id)
+          await axios.delete('/ministerio/'+id)
           this.obtenerministerio()
          //alert('Ministerio Eliminado')
          this.hideModal(index) 

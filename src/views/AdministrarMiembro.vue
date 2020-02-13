@@ -627,7 +627,6 @@
 
 <script>
 import axios from "axios";
-import { mapState } from "vuex";
 import router from "../router/index";
 
 export default {
@@ -682,9 +681,6 @@ export default {
       show: true
     };
   },
-  computed: {
-    ...mapState(["url"])
-  },
   created() {
     this.obtenerMiembros();
     this.obtenerCargos();
@@ -700,7 +696,7 @@ export default {
     },
     async obtenerMiembros() {
       try {
-        const respuesta = await axios.get(this.url + "/listaMiembros");
+        const respuesta = await axios.get("/listaMiembros");
         this.miembros = respuesta.data;
       } catch (error) {
         console.log("error al conectar al api : ", error);
@@ -708,7 +704,7 @@ export default {
     },
     async obtenerCargos() {
       try {
-        const respuesta = await axios.get(this.url + "/listaCargoLider");
+        const respuesta = await axios.get("/listaCargoLider");
         this.cargos = respuesta.data;
         this.cargosAct = respuesta.data;
       } catch (error) {
@@ -719,7 +715,7 @@ export default {
     async enviarImagen() {
       const fd = new FormData();
       fd.append("file", this.file);
-      axios.post(this.url + "/subir", fd).then(res => {
+      axios.post("/subir", fd).then(res => {
         this.form.foto = "/images/" + res.data.filename;
         console.log(res.data);
       });
@@ -728,7 +724,7 @@ export default {
 
     async enviarFormulario() {
       try {
-        const res = await axios.post(this.url + "/miembro", {
+        const res = await axios.post("/miembro", {
           nombre: this.form.nombre,
           apellido_paterno: this.form.apellido_paterno,
           apellido_materno: this.form.apellido_materno,
@@ -781,7 +777,7 @@ export default {
     //para enviar en lformulario datos de la tabla gestion_cargo
     async datosGestionCargo(id_m) {
       try {
-        const resgc = await axios.post(this.url + "/miembroGestionCargo", {
+        const resgc = await axios.post("/miembroGestionCargo", {
           fecha_inicio: this.form.fecha_inicio,
           fecha_fin: this.form.fecha_fin,
           id_miembro: id_m
@@ -795,7 +791,7 @@ export default {
     //para enviar en lformulario datos de la tabla fotografia
     async datosFotografia(id_m) {
       try {
-        const resf = await axios.post(this.url + "/miembroFotografia", {
+        const resf = await axios.post("/miembroFotografia", {
           foto: this.form.foto,
           id_miembro: id_m
         });
@@ -897,7 +893,7 @@ export default {
     },
     async actualizarFormulario() {
       try {
-        await axios.put(this.url + "/miembro/" + this.miembro.id_miembro, {
+        await axios.put("/miembro/" + this.miembro.id_miembro, {
           nombre: this.miembro.nombre,
           apellido_paterno: this.miembro.apellido_paterno,
           apellido_materno: this.miembro.apellido_materno,
@@ -950,7 +946,7 @@ export default {
     },
     async datosGestionCargoCrearAct(id_m) {
       try {
-        const resgc = await axios.post(this.url + "/miembroGestionCargo", {
+        const resgc = await axios.post("/miembroGestionCargo", {
           fecha_inicio: this.miembro.fecha_inicio,
           fecha_fin: this.miembro.fecha_fin,
           id_miembro: id_m
@@ -963,7 +959,7 @@ export default {
     },
     async datosFotografiaCrearAct(id_m) {
       try {
-        const resf = await axios.post(this.url + "/miembroFotografia", {
+        const resf = await axios.post("/miembroFotografia", {
           foto: this.miembro.foto,
           id_miembro: id_m
         });
@@ -976,7 +972,7 @@ export default {
     async actualizarGestionCargo() {
       try {
         await axios.put(
-          this.url + "/miembroGestionCargo/" + this.miembro.id_gestion_cargo,
+          "/miembroGestionCargo/" + this.miembro.id_gestion_cargo,
           {
             fecha_inicio: this.miembro.fecha_inicio,
             fecha_fin: this.miembro.fecha_fin,
@@ -992,7 +988,7 @@ export default {
     async actualizarFotografia() {
       try {
         await axios.put(
-          this.url + "/miembroFotografia/" + this.miembro.id_fotografia,
+          "/miembroFotografia/" + this.miembro.id_fotografia,
           {
             foto: this.miembro.foto,
             id_miembro: this.miembro.id_miembro
@@ -1008,7 +1004,7 @@ export default {
     async actualizarFoto() {
       const fd = new FormData();
       fd.append("file", this.file);
-      axios.post(this.url + "/subir", fd).then(res => {
+      axios.post("/subir", fd).then(res => {
         this.miembro.foto = "/images/" + res.data.filename;
         console.log(res.data);
       });
@@ -1023,7 +1019,7 @@ export default {
     },
     async eliminarMiembro(id,index) {
       try {
-        await axios.delete(this.url + "/miembro/" + id);
+        await axios.delete("/miembro/" + id);
         this.obtenerMiembros();
         // alert('Miembro eliminado')
         this.hideModal(index)  //para eliminar uno solo y aparesca una sola vez

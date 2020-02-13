@@ -50,22 +50,18 @@
 
 <script>
 import axios from "axios";
-import {mapState} from "vuex"
 
 export default {
   data: () => ({
     iglesias: []
   }),
-  computed:{
-    ...mapState(['url'])
-  },
   created() {
     this.obtenerIglesia();
   },
   methods: {
     async obtenerIglesia() {
       try {
-        const respuesta = await axios.get(this.url+"/iglesia");
+        const respuesta = await axios.get("/iglesia");
         this.iglesias = respuesta.data;
       } catch (error) {
         console.log("error al conectar al api: ", error);

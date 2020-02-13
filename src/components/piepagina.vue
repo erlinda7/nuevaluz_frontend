@@ -44,7 +44,6 @@
 
 <script>
 import axios from "axios";
-import {mapState} from 'vuex'
 export default {
   data: () => ({
     iglesias: [],
@@ -56,13 +55,10 @@ export default {
     console.log("ejecutando obtenerIglesia");
     //this.getList()
   },
-  computed: {
-      ...mapState(['url'])
-    },
   methods: {
     async obtenerIglesia() {
             try {
-                const respuesta = await axios.get(this.url+'/iglesia');
+                const respuesta = await axios.get('/iglesia');
                 this.iglesias = respuesta.data;
             } catch (error) {
                 console.log('error al conectar al api: ',error);
@@ -79,7 +75,7 @@ export default {
     }*/
     async obtenerReunionesIglesia() {
             try {
-                const respuesta = await axios.get(this.url+'/reunion_iglesia');
+                const respuesta = await axios.get('/reunion_iglesia');
                 this.reunionesIglesia = respuesta.data;
             } catch (error) {
                 console.log('error al conectar al api: ',error);
